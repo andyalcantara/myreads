@@ -7,7 +7,7 @@ const SearchListItem = (props) => {
             <div className="book-top">
                 <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url(${props.image})` }}></div>
                 <div className="book-shelf-changer">
-                <select value={props.value} onChange={(event) => props.moveBook(props.book, event.target.value)}>
+                <select defaultValue={props.defaultValue} value={props.value} onChange={(event) => props.moveBook(props.book, event.target.value)}>
                     <option value="move" disabled>Move to...</option>
                     <option value="currentlyReading">Currently Reading</option>
                     <option value="wantToRead">Want to Read</option>

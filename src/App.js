@@ -10,7 +10,6 @@ class BooksApp extends React.Component {
     currentlyReading: [],
     read: [],
     wantToRead: [],
-    searchedBooks: [],
     books: []
   }
 
@@ -22,44 +21,25 @@ class BooksApp extends React.Component {
         read: allBooks.filter(book => book.shelf === 'read'),
         wantToRead: allBooks.filter(book => book.shelf === 'wantToRead')
       });
-      console.log(allBooks);
     });
   }
 
   moveBook = (book, toShelf) => {
     BooksAPI.update(book, toShelf).then((response) => {
-      console.log(response);
       if (response.currentlyReading.length !== this.state.currentlyReading || response.read.length !== this.state.read || response.wantToRead !== this.state.wantToRead) {
         BooksAPI.getAll().then(allBooks => {
           this.setState({
             currentlyReading: allBooks.filter(book => book.shelf === 'currentlyReading'),
             read: allBooks.filter(book => book.shelf === 'read'),
-            wantToRead: allBooks.filter(book => book.shelf === 'wantToRead')
+            wantToRead: allBooks.filter(book => book.shelf === 'wantToRead'),
+            books: allBooks
           });
         });
       }
     });
   }
 
-  handleSearch = (event) => {
-    if (event.target.value === '') {
-      return;
-    } else {
-      BooksAPI.search(event.target.value).then((results) => {
-        if (results.length > 0) {
-          this.setState({
-            searchedBooks: results
-          });
-          console.log(results);
-        } else {
-          return;
-        }
-      });
-    }
-  }
-
   render() {
-    console.log(this.state.read, this.state.currentlyReading, this.state.wantToRead);
     return (
       <div className="app">
         <Route path='/search' render={() => (
