@@ -24,6 +24,10 @@ class SearchList extends Component {
                     this.setState({
                         searchedBooks: results
                     });
+                } else {
+                    this.setState({
+                        searchedBooks: []
+                    });
                 }
             });
         }
@@ -43,14 +47,15 @@ class SearchList extends Component {
             <div className="search-books-results">
               <ol className="books-grid">
                 {
+                    // Checking if imageLinks are defined, if not setting link to blank
                   this.state.searchedBooks.map(book => {
-                    let image = ''
+                    let image = '';
                     if (book.imageLinks) {
                       image = book.imageLinks.smallThumbnail;
                     } else {
                       image = '';
                     }
-
+                    // If there is a book in any shelf in the searched results,  set queried books' shelf property to that one in the shelf
                     this.props.books.map(mybook => {
                         if (book.title === mybook.title) {
                             book.shelf = mybook.shelf;

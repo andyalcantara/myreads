@@ -42,12 +42,13 @@ class BooksApp extends React.Component {
   render() {
     return (
       <div className="app">
+        {/* Search route, rendering SearchList component */}
         <Route path='/search' render={() => (
           <SearchList books={this.state.books} moveBook={this.moveBook} />
   
         )} />
 
-
+        {/* Home route, rendering the three main shelves with a BooksList Component */}
         <Route exact path='/' render={() => (
           <div className="list-books">
             <div className="list-books-title">
@@ -57,25 +58,29 @@ class BooksApp extends React.Component {
               <div>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Currently Reading</h2>
-                  
+
+                  {/* Currently Reading Books */}
                   <BooksList bookShelf={this.state.currentlyReading} shelf={'currentlyReading'} moveBook={this.moveBook} />
                   
                 </div>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Want to Read</h2>
 
+                  {/* Want to Read Books*/}
                   <BooksList bookShelf={this.state.wantToRead} shelf={'wantToRead'} moveBook={this.moveBook} />
                   
                 </div>
                 <div className="bookshelf">
                   <h2 className="bookshelf-title">Read</h2>
 
+                  {/* Read Books*/}
                   <BooksList bookShelf={this.state.read} shelf={'read'} moveBook={this.moveBook} />
                   
                 </div>
               </div>
             </div>
             <div className="open-search">
+              {/* Link to the /search route */}
               <Link to='/search'>Add a book</Link>
             </div>
           </div>
@@ -85,4 +90,4 @@ class BooksApp extends React.Component {
   }
 }
 
-export default BooksApp
+export default BooksApp;
