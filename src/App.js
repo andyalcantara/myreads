@@ -8,14 +8,15 @@ class BooksApp extends React.Component {
     currentlyReading: [],
     read: [],
     wantToRead: [],
-    searchedBooks: [],
-    books: [],
+    searchedBooks: []
   }
 
   componentDidMount() {
     BooksAPI.getAll().then((allBooks) => {
       this.setState({
-        books: allBooks
+        currentlyReading: allBooks.filter(book => book.shelf === 'currentlyReading'),
+        read: allBooks.filter(book => book.shelf === 'read'),
+        wantToRead: allBooks.filter(book => book.shelf === 'wantToRead')
       });
       console.log(allBooks);
     });
@@ -23,12 +24,17 @@ class BooksApp extends React.Component {
 
   moveBook = (book, toShelf) => {
     BooksAPI.update(book, toShelf).then((response) => {
-      this.setState({
-        currentlyReading: response.currentlyReading,
-        read: response.read,
-        wantToRead: response.wantToRead
-      });
+      console.log(response, 'Update method from BooksApi');
     });
+    if (toShelf === 'currentlyReading' || toShelf === 'read' || toShelf === 'wantToRead') {
+      BooksAPI.getAll().then((allBooks) => {
+        this.setState({
+          currentlyReading: allBooks.filter(book => book.shelf === 'currentlyReading'),
+          read: allBooks.filter(book => book.shelf === 'read'),
+          wantToRead: allBooks.filter(book => book.shelf === 'wantToRead')
+        });
+      });   
+    }
   }
 
   handleSearch = (event) => {
@@ -49,6 +55,7 @@ class BooksApp extends React.Component {
   }
 
   render() {
+    console.log(this.state.read, this.state.currentlyReading, this.state.wantToRead);
     return (
       <div className="app">
         <Route path='/search' render={() => (
@@ -103,7 +110,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {
-                        this.state.books.filter(book => {
+                        this.state.currentlyReading.filter(book => {
                           return book.shelf === 'currentlyReading';
                         }).map(currentlyReadingBook => (
                           <li key={currentlyReadingBook.id}>
@@ -134,7 +141,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {
-                        this.state.books.filter(book => {
+                        this.state.wantToRead.filter(book => {
                           return book.shelf === 'wantToRead';
                         }).map(wantToReadBook => (
                           <li key={wantToReadBook.id}>
@@ -165,7 +172,7 @@ class BooksApp extends React.Component {
                   <div className="bookshelf-books">
                     <ol className="books-grid">
                       {
-                        this.state.books.filter(book => {
+                        this.state.read.filter(book => {
                           return book.shelf === 'read';
                         }).map(readBook => (
                           <li key={readBook.id}>
