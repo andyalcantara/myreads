@@ -4,13 +4,13 @@ import { Route, Link } from 'react-router-dom';
 import './App.css'
 import BooksList from './BooksList';
 import SearchList from './SearchList';
+import BookDetail from './BookDetail';
 
 class BooksApp extends React.Component {
   state = {
     currentlyReading: [],
     read: [],
-    wantToRead: [],
-    books: []
+    wantToRead: []
   }
 
   componentDidMount() {
@@ -21,6 +21,7 @@ class BooksApp extends React.Component {
         read: allBooks.filter(book => book.shelf === 'read'),
         wantToRead: allBooks.filter(book => book.shelf === 'wantToRead')
       });
+      console.log(allBooks);
     });
   }
 
@@ -85,6 +86,8 @@ class BooksApp extends React.Component {
             </div>
           </div>
         )} />
+
+        <Route path='/book-detail/:id' component={BookDetail} />
       </div>
     )
   }
