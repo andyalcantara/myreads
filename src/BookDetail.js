@@ -1,5 +1,6 @@
 import React from 'react';
 import * as BooksAPI from './BooksAPI';
+import { Link } from 'react-router-dom';
 
 class BookDetail extends React.Component {
 
@@ -24,6 +25,7 @@ class BookDetail extends React.Component {
         }
         return (
             <div className="app">
+                <Link className="close-search" to='/' style={{marginTop: 20}}>Back</Link>
                 <h2 style={{marginLeft: 100}}>Book Details</h2>
                 <hr/>
                 <h2 style={{marginLeft: 400}}>Description</h2>
